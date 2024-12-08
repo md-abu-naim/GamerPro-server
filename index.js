@@ -6,7 +6,15 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors())
+const corsOptions = {
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:5174',
+    ],
+    credentials: true,
+    optionSuccessStatus: 200,
+}
+app.use(cors(corsOptions))
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ytced.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -110,7 +118,7 @@ async function run() {
             const result = await reviewCollection.deleteOne(query);
             res.send(result);
         })
-        
+
         // Send a ping to confirm a successful connection
         // await client.db("admin").command({ ping: 1 });
 
