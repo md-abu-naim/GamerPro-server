@@ -67,7 +67,6 @@ async function run() {
             res.send(result);
         })
         app.get('/GameWatchlist/:userEmail', async (req, res) => {
-            console.log('going to details', req.params.email);
             const email = req.params.userEmail;
             const query = { userEmail:email}
             const result = await WatchlistCollection.find(query).toArray();
@@ -77,15 +76,12 @@ async function run() {
 
         app.post('/reviews', async (req, res) => {
             const newReview = req.body;
-            console.log('Adding new review', newReview)
-
             const result = await reviewCollection.insertOne(newReview);
             res.send(result);
         });
 
         app.post('/wachlist', async (req, res) => {
             const newWachList = req.body;
-            console.log('Adding new list', newWachList)
             const result = await WatchlistCollection.insertOne(newWachList);
             res.send(result);
         });
@@ -113,7 +109,6 @@ async function run() {
 
 
         app.delete('/reviews/:id', async (req, res) => {
-            console.log('going to delete', req.params.id);
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const result = await reviewCollection.deleteOne(query);
