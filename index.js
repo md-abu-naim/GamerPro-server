@@ -10,6 +10,8 @@ const corsOptions = {
     origin: [
         'http://localhost:5173',
         'http://localhost:5174',
+        'https://pro-gamer-720d5.web.app',
+        'https://pro-gamer-720d5.firebaseapp.com',
     ],
     credentials: true,
     optionSuccessStatus: 200,
@@ -18,7 +20,8 @@ app.use(cors(corsOptions))
 app.use(express.json());
 
 // const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ytced.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-const uri = `mongodb+srv://roGamerServer:RUjnwPa1cLTnmc8H@cluster0.ytced.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+// const uri = `mongodb+srv://roGamerServer:RUjnwPa1cLTnmc8H@cluster0.ytced.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = `mongodb+srv://proGamerServer:TJXmncPZdc1f63MU@cluster0.ytced.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -48,19 +51,16 @@ async function run() {
         });
         app.get('/high', async (req, res) => {
             const result = await reviewCollection.find().sort({ ratting: -1 }).limit(6).toArray();
-            console.log(result);
             res.send(result)
 
         })
         app.get('/details/:id', async (req, res) => {
-            console.log('going to details', req.params.id);
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const result = await reviewCollection.findOne(query);
             res.send(result);
         })
         app.get('/myreview/:userEmail', async (req, res) => {
-            console.log('going to details', req.params.email);
             const email = req.params.userEmail;
             const query = { userEmail:email}
             const result = await reviewCollection.find(query).toArray();
